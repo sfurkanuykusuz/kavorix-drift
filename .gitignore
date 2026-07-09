@@ -1,0 +1,176 @@
+# ==================================================
+# Unity generated folders
+# ==================================================
+
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+
+# ==================================================
+# Unity generated files
+# ==================================================
+
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+sysinfo.txt
+
+
+# ==================================================
+# Unity Burst / IL2CPP / build debug folders
+# ==================================================
+
+*_BurstDebugInformation_DoNotShip/
+*_BackUpThisFolder_ButDontShipItWithYourGame/
+*.BurstDebugInformation_DoNotShip/
+
+
+# ==================================================
+# Unity build output folders
+# ==================================================
+
+[Bb]uild/
+[Bb]uilds/
+[Dd]ata/
+[Mm]ono[Bb]leeding[Ee]dge/
+[Kk]avorix[Dd]rift_Data/
+
+
+# ==================================================
+# Unity Asset Store tools
+# ==================================================
+
+[Aa]ssets/AssetStoreTools*
+
+
+# ==================================================
+# Unity auto-generated project files
+# ==================================================
+
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.sln.docstates
+
+
+# ==================================================
+# Visual Studio
+# ==================================================
+
+.vs/
+
+
+# ==================================================
+# Visual Studio Code
+# ==================================================
+
+.vscode/
+
+
+# ==================================================
+# JetBrains Rider
+# ==================================================
+
+.idea/
+*.DotSettings.user
+
+
+# ==================================================
+# OS generated files
+# ==================================================
+
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+
+
+# ==================================================
+# Build files
+# ==================================================
+
+*.apk
+*.aab
+*.unitypackage
+
+*.app
+*.exe
+*.x86
+*.x86_64
+
+
+# ==================================================
+# WebGL build outputs
+# ==================================================
+
+*.wasm
+*.mem
+*.data
+*.symbols.json
+*.framework.js
+*.loader.js
+
+
+# ==================================================
+# Android / Gradle generated files
+# ==================================================
+
+.gradle/
+gradle-app.setting
+local.properties
+
+ExportedObj/
+
+
+# ==================================================
+# Addressables generated build data
+# Safe to keep here even if the project does not use Addressables.
+# ==================================================
+
+[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+[Aa]ssets/[Ss]treaming[Aa]ssets/aa.meta
+[Aa]ssets/[Ss]treaming[Aa]ssets/aa/
+
+
+# ==================================================
+# Temporary and backup files
+# ==================================================
+
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+.utmp/
+
+# ==================================================
+# Unity UI Toolkit generated schema files
+# ==================================================
+
+UIElementsSchema/
