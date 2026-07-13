@@ -8,7 +8,7 @@
         <ui:Label text="Please rotate your device" name="RotateWarningText" emoji-fallback-support="false" class="rotate-warning-text" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&amp;guid=f88f7ddf669031c47b3157a4d475a48d&amp;type=3#Michroma-Regular&quot;);"/>
     </ui:VisualElement>
     <ui:VisualElement name="MainMenuPanel" style="flex-grow: 1;">
-        <ui:Button text="Play" name="PlayButton" class="menu-button play-button game-button" style="top: 25px; left: 206px; position: absolute;"/>
-        <ui:Button text="Exit" name="ExitButton" class="menu-button exit-button game-button" style="top: 125px; left: 206px;"/>
+        <ui:Button text="Play" name="PlayButton" class="menu-button play-button game-button" style="top: 60px; left: 206px; position: absolute;"/>
+        <ui:Button text="Exit" name="ExitButton" class="menu-button exit-button game-button" style="top: 160px; left: 206px;"/>
     </ui:VisualElement>
 </ui:UXML>

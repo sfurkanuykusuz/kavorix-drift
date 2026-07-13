@@ -26,6 +26,8 @@ public sealed class PlayerController : MonoBehaviour
     [Header("Scene References")]
     [SerializeField] private GameObject borderParent;
 
+    private static bool startGameAfterSceneReload;
+
     private PlayerMovement2D movement;
     private PlayerBoostEffect boostEffect;
     private PlayerDeathHandler2D deathHandler;
@@ -35,6 +37,12 @@ public sealed class PlayerController : MonoBehaviour
     private GameState currentState = GameState.StartMenu;
 
     private bool IsPlaying => currentState == GameState.Playing;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStaticState()
+    {
+        startGameAfterSceneReload = false;
+    }
 
     private void Awake()
     {
@@ -54,7 +62,17 @@ public sealed class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        ShowStartMenu();
+        bool shouldStartImmediately = startGameAfterSceneReload;
+        startGameAfterSceneReload = false;
+
+        if (shouldStartImmediately)
+        {
+            StartGame();
+        }
+        else
+        {
+            ShowStartMenu();
+        }
     }
 
     private void OnDestroy()
@@ -98,7 +116,7 @@ public sealed class PlayerController : MonoBehaviour
         }
 
         uiController.PlayClicked += StartGame;
-        uiController.RestartClicked += ReloadScene;
+        uiController.RestartClicked += RestartGame;
         uiController.ExitClicked += ExitGame;
     }
 
@@ -121,7 +139,7 @@ public sealed class PlayerController : MonoBehaviour
         }
 
         uiController.PlayClicked -= StartGame;
-        uiController.RestartClicked -= ReloadScene;
+        uiController.RestartClicked -= RestartGame;
         uiController.ExitClicked -= ExitGame;
     }
 
@@ -206,8 +224,10 @@ public sealed class PlayerController : MonoBehaviour
         }
     }
 
-    private void ReloadScene()
+    private void RestartGame()
     {
+        startGameAfterSceneReload = true;
+
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

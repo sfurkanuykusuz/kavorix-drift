@@ -17,10 +17,26 @@ public sealed class GameUIController : MonoBehaviour
     private const string NewHighScoreVisibleClass = "new-high-score-text-show";
     private const string HighScoreFlashClass = "high-score-flash";
 
+    private const string GameOverButtonEnterClass = "game-over-button-enter";
+    private const string GameOverButtonEnterVisibleClass = "game-over-button-enter-show";
+
     private const int HighScoreFlashDurationMs = 250;
+    private const int GameOverButtonAnimationDelayMs = 50;
 
     [Header("UI")]
     [SerializeField] private UIDocument uiDocument;
+
+    [Header("Button SFX")]
+    [SerializeField] private AudioSource uiAudioSource;
+    [SerializeField] private AudioClip buttonHoverSfx;
+    [SerializeField] private AudioClip buttonClickSfx;
+    [SerializeField, Range(0f, 1f)] private float hoverSfxVolume = 0.45f;
+    [SerializeField, Range(0f, 1f)] private float clickSfxVolume = 0.7f;
+
+    [Header("Game Over")]
+    [SerializeField, Min(0f)] private float gameOverButtonDelay = 0.7f;
+
+    private VisualElement root;
 
     private Label scoreLabel;
     private Label highScoreLabel;
@@ -31,6 +47,9 @@ public sealed class GameUIController : MonoBehaviour
     private Button exitButton;
 
     private VisualElement mainMenuPanel;
+
+    private IVisualElementScheduledItem showGameOverButtonsSchedule;
+    private IVisualElementScheduledItem animateGameOverButtonsSchedule;
 
     public event Action PlayClicked;
     public event Action RestartClicked;
@@ -43,60 +62,72 @@ public sealed class GameUIController : MonoBehaviour
             uiDocument = GetComponent<UIDocument>();
         }
 
+        if (uiAudioSource == null)
+        {
+            uiAudioSource = GetComponent<AudioSource>();
+        }
+
         SetupUI();
     }
 
     private void OnDestroy()
     {
+        CancelGameOverButtonSchedules();
         UnsubscribeFromButtonEvents();
     }
 
     public void ShowStartMenu(int highScore)
     {
+        CancelGameOverButtonSchedules();
+        ResetGameOverButtonVisuals();
+        ResetNewHighScoreVisual();
+
         SetDisplay(mainMenuPanel, DisplayStyle.Flex);
 
-        SetDisplay(playButton, DisplayStyle.Flex);
-        SetDisplay(exitButton, DisplayStyle.Flex);
-        SetDisplay(restartButton, DisplayStyle.None);
+        SetButtonVisibleAndEnabled(playButton, true, true);
+        SetButtonVisibleAndEnabled(exitButton, true, true);
+        SetButtonVisibleAndEnabled(restartButton, false, false);
 
-        SetDisplay(scoreLabel, DisplayStyle.None);
-        SetDisplay(highScoreLabel, DisplayStyle.None);
-        SetDisplay(newHighScoreLabel, DisplayStyle.None);
+        SetScoreUIVisible(false, false, false);
 
         UpdateScore(0);
         UpdateHighScore(highScore);
-        ResetNewHighScoreVisual();
     }
 
     public void ShowPlaying(int highScore)
     {
+        CancelGameOverButtonSchedules();
+        ResetGameOverButtonVisuals();
+        ResetNewHighScoreVisual();
+
         SetDisplay(mainMenuPanel, DisplayStyle.None);
 
-        SetDisplay(playButton, DisplayStyle.None);
-        SetDisplay(exitButton, DisplayStyle.None);
-        SetDisplay(restartButton, DisplayStyle.None);
-
-        SetDisplay(scoreLabel, DisplayStyle.Flex);
+        SetButtonVisibleAndEnabled(playButton, false, false);
+        SetButtonVisibleAndEnabled(exitButton, false, false);
+        SetButtonVisibleAndEnabled(restartButton, false, false);
 
         // Keep the high score hidden during gameplay to reduce UI clutter.
-        SetDisplay(highScoreLabel, DisplayStyle.None);
-        SetDisplay(newHighScoreLabel, DisplayStyle.None);
+        SetScoreUIVisible(true, false, false);
 
         UpdateScore(0);
         UpdateHighScore(highScore);
-        ResetNewHighScoreVisual();
     }
 
     public void ShowGameOver(int score, int highScore, bool hasNewHighScore)
     {
+        CancelGameOverButtonSchedules();
+        ResetGameOverButtonVisuals();
+        ResetNewHighScoreVisual();
+
         SetDisplay(mainMenuPanel, DisplayStyle.Flex);
 
-        SetDisplay(playButton, DisplayStyle.None);
-        SetDisplay(exitButton, DisplayStyle.Flex);
-        SetDisplay(restartButton, DisplayStyle.Flex);
+        SetButtonVisibleAndEnabled(playButton, false, false);
 
-        SetDisplay(scoreLabel, DisplayStyle.Flex);
-        SetDisplay(highScoreLabel, DisplayStyle.Flex);
+        // Keep Game Over buttons fully hidden during the safety delay.
+        // They will be displayed only after the initial animation state is prepared.
+        SetGameOverButtonsVisibleAndEnabled(false, false);
+
+        SetScoreUIVisible(true, true, false);
 
         UpdateScore(score);
         UpdateHighScore(highScore);
@@ -105,14 +136,8 @@ public sealed class GameUIController : MonoBehaviour
         {
             ShowNewHighScoreFeedback();
         }
-        else
-        {
-            SetDisplay(newHighScoreLabel, DisplayStyle.None);
-        }
 
-        // The full-screen menu panel can overlap the restart button.
-        // Bringing the button to front keeps it clickable.
-        restartButton?.BringToFront();
+        ScheduleGameOverButtons();
     }
 
     public void UpdateScore(int score)
@@ -133,7 +158,7 @@ public sealed class GameUIController : MonoBehaviour
             return;
         }
 
-        VisualElement root = uiDocument.rootVisualElement;
+        root = uiDocument.rootVisualElement;
 
         scoreLabel = root.Q<Label>(ScoreLabelName);
         highScoreLabel = root.Q<Label>(HighScoreLabelName);
@@ -150,53 +175,182 @@ public sealed class GameUIController : MonoBehaviour
 
     private void SubscribeToButtonEvents()
     {
-        if (playButton != null)
-        {
-            playButton.clicked += HandlePlayClicked;
-        }
-
-        if (restartButton != null)
-        {
-            restartButton.clicked += HandleRestartClicked;
-        }
-
-        if (exitButton != null)
-        {
-            exitButton.clicked += HandleExitClicked;
-        }
+        SubscribeButton(playButton, HandlePlayClicked);
+        SubscribeButton(restartButton, HandleRestartClicked);
+        SubscribeButton(exitButton, HandleExitClicked);
     }
 
     private void UnsubscribeFromButtonEvents()
     {
-        if (playButton != null)
+        UnsubscribeButton(playButton, HandlePlayClicked);
+        UnsubscribeButton(restartButton, HandleRestartClicked);
+        UnsubscribeButton(exitButton, HandleExitClicked);
+    }
+
+    private void SubscribeButton(Button button, Action clickHandler)
+    {
+        if (button == null)
         {
-            playButton.clicked -= HandlePlayClicked;
+            return;
         }
 
-        if (restartButton != null)
+        button.clicked += clickHandler;
+        button.RegisterCallback<PointerEnterEvent>(HandleButtonPointerEnter);
+    }
+
+    private void UnsubscribeButton(Button button, Action clickHandler)
+    {
+        if (button == null)
         {
-            restartButton.clicked -= HandleRestartClicked;
+            return;
         }
 
-        if (exitButton != null)
+        button.clicked -= clickHandler;
+        button.UnregisterCallback<PointerEnterEvent>(HandleButtonPointerEnter);
+    }
+
+    private void HandleButtonPointerEnter(PointerEnterEvent evt)
+    {
+        Button button = evt.currentTarget as Button;
+
+        if (button == null || !button.enabledInHierarchy || button.pickingMode == PickingMode.Ignore)
         {
-            exitButton.clicked -= HandleExitClicked;
+            return;
         }
+
+        PlayButtonHoverSfx();
     }
 
     private void HandlePlayClicked()
     {
+        PlayButtonClickSfx();
         PlayClicked?.Invoke();
     }
 
     private void HandleRestartClicked()
     {
+        PlayButtonClickSfx();
         RestartClicked?.Invoke();
     }
 
     private void HandleExitClicked()
     {
+        PlayButtonClickSfx();
         ExitClicked?.Invoke();
+    }
+
+    private void ScheduleGameOverButtons()
+    {
+        if (root == null || gameOverButtonDelay <= 0f)
+        {
+            ShowGameOverButtonsInInitialAnimationState();
+            ScheduleGameOverButtonAnimation();
+            return;
+        }
+
+        int delayMilliseconds = Mathf.RoundToInt(gameOverButtonDelay * 1000f);
+
+        showGameOverButtonsSchedule = root.schedule.Execute(ShowGameOverButtonsAfterDelay);
+        showGameOverButtonsSchedule.ExecuteLater(delayMilliseconds);
+    }
+
+    private void ShowGameOverButtonsAfterDelay()
+    {
+        ShowGameOverButtonsInInitialAnimationState();
+        ScheduleGameOverButtonAnimation();
+
+        showGameOverButtonsSchedule = null;
+    }
+
+    private void ShowGameOverButtonsInInitialAnimationState()
+    {
+        PrepareGameOverButtonAnimation(restartButton);
+        PrepareGameOverButtonAnimation(exitButton);
+
+        SetGameOverButtonsVisibleAndEnabled(true, false);
+        BringGameOverButtonsToFront();
+    }
+
+    private void ScheduleGameOverButtonAnimation()
+    {
+        if (root == null)
+        {
+            PlayGameOverButtonAnimation();
+            return;
+        }
+
+        animateGameOverButtonsSchedule = root.schedule.Execute(PlayGameOverButtonAnimationAfterDelay);
+        animateGameOverButtonsSchedule.ExecuteLater(GameOverButtonAnimationDelayMs);
+    }
+
+    private void PlayGameOverButtonAnimationAfterDelay()
+    {
+        PlayGameOverButtonAnimation();
+        animateGameOverButtonsSchedule = null;
+    }
+
+    private void PlayGameOverButtonAnimation()
+    {
+        AddGameOverButtonVisibleClass(restartButton);
+        AddGameOverButtonVisibleClass(exitButton);
+
+        SetGameOverButtonsInteractive(true);
+        BringGameOverButtonsToFront();
+    }
+
+    private void CancelGameOverButtonSchedules()
+    {
+        CancelScheduledItem(ref showGameOverButtonsSchedule);
+        CancelScheduledItem(ref animateGameOverButtonsSchedule);
+    }
+
+    private void CancelScheduledItem(ref IVisualElementScheduledItem scheduledItem)
+    {
+        if (scheduledItem == null)
+        {
+            return;
+        }
+
+        scheduledItem.Pause();
+        scheduledItem = null;
+    }
+
+    private void PrepareGameOverButtonAnimation(Button button)
+    {
+        if (button == null)
+        {
+            return;
+        }
+
+        button.RemoveFromClassList(GameOverButtonEnterVisibleClass);
+        button.AddToClassList(GameOverButtonEnterClass);
+    }
+
+    private void AddGameOverButtonVisibleClass(Button button)
+    {
+        if (button == null)
+        {
+            return;
+        }
+
+        button.AddToClassList(GameOverButtonEnterVisibleClass);
+    }
+
+    private void ResetGameOverButtonVisuals()
+    {
+        ResetGameOverButtonVisual(restartButton);
+        ResetGameOverButtonVisual(exitButton);
+    }
+
+    private void ResetGameOverButtonVisual(Button button)
+    {
+        if (button == null)
+        {
+            return;
+        }
+
+        button.RemoveFromClassList(GameOverButtonEnterClass);
+        button.RemoveFromClassList(GameOverButtonEnterVisibleClass);
     }
 
     private void ShowNewHighScoreFeedback()
@@ -232,6 +386,74 @@ public sealed class GameUIController : MonoBehaviour
         {
             highScoreLabel.RemoveFromClassList(HighScoreFlashClass);
         }
+    }
+
+    private void SetScoreUIVisible(bool showScore, bool showHighScore, bool showNewHighScore)
+    {
+        SetDisplay(scoreLabel, showScore ? DisplayStyle.Flex : DisplayStyle.None);
+        SetDisplay(highScoreLabel, showHighScore ? DisplayStyle.Flex : DisplayStyle.None);
+        SetDisplay(newHighScoreLabel, showNewHighScore ? DisplayStyle.Flex : DisplayStyle.None);
+    }
+
+    private void SetGameOverButtonsVisibleAndEnabled(bool visible, bool enabled)
+    {
+        SetButtonVisibleAndEnabled(restartButton, visible, enabled);
+        SetButtonVisibleAndEnabled(exitButton, visible, enabled);
+    }
+
+    private void SetGameOverButtonsInteractive(bool interactive)
+    {
+        SetButtonInteractive(restartButton, interactive);
+        SetButtonInteractive(exitButton, interactive);
+    }
+
+    private void BringGameOverButtonsToFront()
+    {
+        restartButton?.BringToFront();
+        exitButton?.BringToFront();
+    }
+
+    private void SetButtonVisibleAndEnabled(Button button, bool visible, bool enabled)
+    {
+        if (button == null)
+        {
+            return;
+        }
+
+        button.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+        SetButtonInteractive(button, visible && enabled);
+    }
+
+    private void SetButtonInteractive(Button button, bool interactive)
+    {
+        if (button == null)
+        {
+            return;
+        }
+
+        button.SetEnabled(interactive);
+        button.pickingMode = interactive ? PickingMode.Position : PickingMode.Ignore;
+        button.focusable = interactive;
+    }
+
+    private void PlayButtonHoverSfx()
+    {
+        PlayUISfx(buttonHoverSfx, hoverSfxVolume);
+    }
+
+    private void PlayButtonClickSfx()
+    {
+        PlayUISfx(buttonClickSfx, clickSfxVolume);
+    }
+
+    private void PlayUISfx(AudioClip clip, float volume)
+    {
+        if (uiAudioSource == null || clip == null)
+        {
+            return;
+        }
+
+        uiAudioSource.PlayOneShot(clip, volume);
     }
 
     private void SetDisplay(VisualElement element, DisplayStyle displayStyle)
