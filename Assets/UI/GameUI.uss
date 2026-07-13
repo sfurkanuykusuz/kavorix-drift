@@ -207,3 +207,40 @@
     padding-bottom: 24px;
     padding-left: 32px;
 }
+
+/* ================================================== */
+/* COUNTDOWN                                          */
+/* Shown before gameplay starts.                      */
+/* ================================================== */
+
+.countdown-label {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    color: rgb(255, 255, 255);
+
+    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+
+    font-size: 96px;
+
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}

@@ -309,6 +309,8 @@ MonoBehaviour:
   buttonClickSfx: {fileID: 8300000, guid: 993c1c0e3eac3ea4ba175eb89d4092c1, type: 3}
   hoverSfxVolume: 0.5
   clickSfxVolume: 0.8
+  countdownSfx: {fileID: 8300000, guid: 2f165b00b02fd774da238132bf1ee8fc, type: 3}
+  countdownSfxVolume: 0.8
   gameOverButtonDelay: 0.7
 --- !u!82 &295974403
 AudioSource:

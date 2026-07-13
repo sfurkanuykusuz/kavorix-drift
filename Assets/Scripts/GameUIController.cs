@@ -8,6 +8,7 @@ public sealed class GameUIController : MonoBehaviour
     private const string ScoreLabelName = "ScoreLabel";
     private const string HighScoreLabelName = "HighScoreLabel";
     private const string NewHighScoreLabelName = "NewHighScoreLabel";
+    private const string CountdownLabelName = "CountdownLabel";
 
     private const string RestartButtonName = "RestartButton";
     private const string PlayButtonName = "PlayButton";
@@ -33,6 +34,10 @@ public sealed class GameUIController : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float hoverSfxVolume = 0.45f;
     [SerializeField, Range(0f, 1f)] private float clickSfxVolume = 0.7f;
 
+    [Header("Countdown SFX")]
+    [SerializeField] private AudioClip countdownSfx;
+    [SerializeField, Range(0f, 1f)] private float countdownSfxVolume = 0.8f;
+
     [Header("Game Over")]
     [SerializeField, Min(0f)] private float gameOverButtonDelay = 0.7f;
 
@@ -41,6 +46,7 @@ public sealed class GameUIController : MonoBehaviour
     private Label scoreLabel;
     private Label highScoreLabel;
     private Label newHighScoreLabel;
+    private Label countdownLabel;
 
     private Button restartButton;
     private Button playButton;
@@ -81,6 +87,7 @@ public sealed class GameUIController : MonoBehaviour
         CancelGameOverButtonSchedules();
         ResetGameOverButtonVisuals();
         ResetNewHighScoreVisual();
+        HideCountdown();
 
         SetDisplay(mainMenuPanel, DisplayStyle.Flex);
 
@@ -99,6 +106,7 @@ public sealed class GameUIController : MonoBehaviour
         CancelGameOverButtonSchedules();
         ResetGameOverButtonVisuals();
         ResetNewHighScoreVisual();
+        HideCountdown();
 
         SetDisplay(mainMenuPanel, DisplayStyle.None);
 
@@ -113,11 +121,46 @@ public sealed class GameUIController : MonoBehaviour
         UpdateHighScore(highScore);
     }
 
+    public void ShowCountdownText(string text)
+    {
+        CancelGameOverButtonSchedules();
+        ResetGameOverButtonVisuals();
+        ResetNewHighScoreVisual();
+
+        SetDisplay(mainMenuPanel, DisplayStyle.None);
+
+        SetButtonVisibleAndEnabled(playButton, false, false);
+        SetButtonVisibleAndEnabled(exitButton, false, false);
+        SetButtonVisibleAndEnabled(restartButton, false, false);
+
+        SetScoreUIVisible(false, false, false);
+
+        if (countdownLabel == null)
+        {
+            return;
+        }
+
+        countdownLabel.text = text;
+        SetDisplay(countdownLabel, DisplayStyle.Flex);
+        countdownLabel.BringToFront();
+    }
+
+    public void HideCountdown()
+    {
+        SetDisplay(countdownLabel, DisplayStyle.None);
+    }
+
+    public void PlayCountdownSfx()
+    {
+        PlayUISfx(countdownSfx, countdownSfxVolume);
+    }
+
     public void ShowGameOver(int score, int highScore, bool hasNewHighScore)
     {
         CancelGameOverButtonSchedules();
         ResetGameOverButtonVisuals();
         ResetNewHighScoreVisual();
+        HideCountdown();
 
         SetDisplay(mainMenuPanel, DisplayStyle.Flex);
 
@@ -163,6 +206,7 @@ public sealed class GameUIController : MonoBehaviour
         scoreLabel = root.Q<Label>(ScoreLabelName);
         highScoreLabel = root.Q<Label>(HighScoreLabelName);
         newHighScoreLabel = root.Q<Label>(NewHighScoreLabelName);
+        countdownLabel = root.Q<Label>(CountdownLabelName);
 
         restartButton = root.Q<Button>(RestartButtonName);
         playButton = root.Q<Button>(PlayButtonName);
