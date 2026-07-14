@@ -23,7 +23,6 @@ public sealed class Obstacle : MonoBehaviour
 
     [Header("Bounce Effect")]
     [SerializeField] private GameObject bounceEffectPrefab;
-
     [SerializeField, Min(0f)] private float effectLifetime = 1f;
 
     [Header("Effect Scale")]
@@ -36,6 +35,10 @@ public sealed class Obstacle : MonoBehaviour
 
     private int obstacleId;
     private Rigidbody2D rb;
+
+    public Rigidbody2D Body => rb;
+    public Vector2 Velocity => rb != null ? rb.linearVelocity : Vector2.zero;
+    public float CurrentSpeed => Velocity.magnitude;
 
     private void Awake()
     {
@@ -62,6 +65,22 @@ public sealed class Obstacle : MonoBehaviour
         }
 
         SpawnBounceEffect(collision);
+    }
+
+    public void ApplyImpulse(Vector2 impulse)
+    {
+        if (rb == null)
+        {
+            return;
+        }
+
+        rb.AddForce(impulse, ForceMode2D.Impulse);
+        ClampVelocityIfNeeded();
+    }
+
+    public void DestroyObstacle()
+    {
+        Destroy(gameObject);
     }
 
     private void InitializeRandomSize()
@@ -98,7 +117,7 @@ public sealed class Obstacle : MonoBehaviour
 
     private void ClampVelocityIfNeeded()
     {
-        if (!clampMaxVelocity || maxVelocity <= 0f)
+        if (!clampMaxVelocity || maxVelocity <= 0f || rb == null)
         {
             return;
         }
@@ -128,8 +147,8 @@ public sealed class Obstacle : MonoBehaviour
             return false;
         }
 
-        float mySpeed = rb.linearVelocity.magnitude;
-        float otherSpeed = otherObstacle.rb.linearVelocity.magnitude;
+        float mySpeed = CurrentSpeed;
+        float otherSpeed = otherObstacle.CurrentSpeed;
 
         // When two obstacles collide, only one of them should spawn the effect.
         // The faster obstacle handles the effect. If speeds are almost equal,

@@ -23,7 +23,11 @@ public sealed class PlayerMovement2D : MonoBehaviour
 
     private Vector2 thrustDirection = Vector2.up;
 
+    public Rigidbody2D Body => rb;
+    public bool IsMovementEnabled => canMove;
     public bool IsThrusting => isThrusting;
+    public Vector2 ThrustDirection => thrustDirection;
+    public Vector2 FacingDirection => transform.up;
 
     private void Awake()
     {
@@ -39,6 +43,9 @@ public sealed class PlayerMovement2D : MonoBehaviour
     private void OnDisable()
     {
         DisableInputActions();
+
+        canMove = false;
+        isThrusting = false;
     }
 
     public void SetMovementEnabled(bool isEnabled)
@@ -80,8 +87,10 @@ public sealed class PlayerMovement2D : MonoBehaviour
         ClampSpeed();
     }
 
-    private void UpdateThrustDirectionFromPointer()
+    public bool TryGetPointerWorldPosition(out Vector2 worldPosition)
     {
+        worldPosition = Vector2.zero;
+
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
@@ -89,14 +98,36 @@ public sealed class PlayerMovement2D : MonoBehaviour
 
         if (mainCamera == null || lookPosition == null)
         {
-            return;
+            return false;
         }
 
         Vector2 screenPosition = lookPosition.ReadValue<Vector2>();
-        Vector3 worldPosition = mainCamera.ScreenToWorldPoint(screenPosition);
-        worldPosition.z = 0f;
+        Vector3 worldPoint = mainCamera.ScreenToWorldPoint(screenPosition);
+        worldPoint.z = 0f;
 
-        Vector2 direction = worldPosition - transform.position;
+        worldPosition = worldPoint;
+        return true;
+    }
+
+    public void StopMovement()
+    {
+        isThrusting = false;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+        }
+    }
+
+    private void UpdateThrustDirectionFromPointer()
+    {
+        if (!TryGetPointerWorldPosition(out Vector2 worldPosition))
+        {
+            return;
+        }
+
+        Vector2 direction = worldPosition - (Vector2)transform.position;
 
         // Avoid unstable rotation when the pointer is too close to the player.
         if (direction.sqrMagnitude <= MinDirectionSqrMagnitude)
@@ -110,6 +141,11 @@ public sealed class PlayerMovement2D : MonoBehaviour
 
     private void ClampSpeed()
     {
+        if (rb == null)
+        {
+            return;
+        }
+
         if (maxSpeed <= 0f)
         {
             rb.linearVelocity = Vector2.zero;

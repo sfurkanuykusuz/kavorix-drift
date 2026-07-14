@@ -1,15 +1,15 @@
 fileFormatVersion: 2
-guid: 0c0fdc0eea37f4c4698835c187533bb4
+guid: 832803464a8a93841922e52523e386be
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3989672542498983000
-    second: BoostFlameParticleTexture_0
+      213: -4478703775913692564
+    second: Missile_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -57,7 +57,7 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 0
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -152,13 +152,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BoostFlameParticleTexture_0
+      name: Missile_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 58
-        width: 512
-        height: 426
+        y: 0
+        width: 1254
+        height: 1254
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,8 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 85c08c90a0a2e5730800000000000000
-      internalID: 3989672542498983000
+      spriteID: c62b67e15a278d1c0800000000000000
+      internalID: -4478703775913692564
       vertices: []
       indices: 
       edges: []
@@ -187,7 +187,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BoostFlameParticleTexture_0: 3989672542498983000
+      Missile_0: -4478703775913692564
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

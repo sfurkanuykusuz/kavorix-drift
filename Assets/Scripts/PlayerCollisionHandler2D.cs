@@ -4,9 +4,11 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public sealed class PlayerCollisionHandler2D : MonoBehaviour
 {
+    private bool isCollisionDetectionEnabled;
+
     public event Action<Collision2D> CollisionDetected;
 
-    private bool isCollisionDetectionEnabled;
+    public bool IsCollisionDetectionEnabled => isCollisionDetectionEnabled;
 
     public void SetCollisionDetectionEnabled(bool isEnabled)
     {
@@ -21,5 +23,10 @@ public sealed class PlayerCollisionHandler2D : MonoBehaviour
         }
 
         CollisionDetected?.Invoke(collision);
+    }
+
+    private void OnDisable()
+    {
+        isCollisionDetectionEnabled = false;
     }
 }

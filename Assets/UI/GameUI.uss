@@ -12,11 +12,11 @@
 
 .new-high-score-text-show {
     opacity: 1;
-    scale: 1.15;
+    scale: 1.04;
 }
 
 .high-score-flash {
-    scale: 1.2;
+    scale: 1.06;
 
     transition-property: scale;
     transition-duration: 0.18s;
@@ -24,8 +24,122 @@
 
 
 /* ================================================== */
+/* HUD / GAME OVER LABELS                             */
+/* ================================================== */
+
+.hud-label {
+    position: absolute;
+
+    min-width: 150px;
+
+    color: rgb(255, 255, 255);
+    background-color: rgba(16, 22, 39, 0.58);
+
+    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
+    -unity-font-style: normal;
+    -unity-text-align: middle-center;
+
+    font-size: 17px;
+
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+
+    border-top-color: rgb(40, 133, 188);
+    border-right-color: rgb(40, 133, 188);
+    border-bottom-color: rgb(40, 133, 188);
+    border-left-color: rgb(40, 133, 188);
+
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+
+    padding-top: 6px;
+    padding-right: 16px;
+    padding-bottom: 6px;
+    padding-left: 16px;
+
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.score-label {
+    left: 50%;
+    top: 18px;
+
+    translate: -50% 0;
+}
+
+.high-score-label {
+    left: 50%;
+    top: 72px;
+
+    translate: -50% 0;
+
+    min-width: 225px;
+}
+
+.new-high-score-label {
+    position: absolute;
+
+    left: 50%;
+    top: 124px;
+
+    translate: -50% 0;
+
+    min-width: 225px;
+
+    color: rgb(255, 230, 120);
+    background-color: rgba(16, 22, 39, 0.68);
+
+    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+
+    font-size: 17px;
+
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+
+    border-top-color: rgb(255, 210, 90);
+    border-right-color: rgb(255, 210, 90);
+    border-bottom-color: rgb(255, 210, 90);
+    border-left-color: rgb(255, 210, 90);
+
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+
+    padding-top: 6px;
+    padding-right: 16px;
+    padding-bottom: 6px;
+    padding-left: 16px;
+
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.obstacle-count-label {
+    right: 36px;
+    bottom: 32px;
+
+    min-width: 155px;
+
+    display: none;
+}
+
+
+/* ================================================== */
 /* SHARED BUTTON STYLE                                */
-/* Used by Play, Exit, and Restart buttons.           */
 /* ================================================== */
 
 .game-button {
@@ -66,7 +180,6 @@
     scale: 1.08;
 
     background-color: rgba(60, 160, 210, 0.35);
-    color: rgb(255, 255, 255);
 
     border-top-color: rgb(100, 220, 255);
     border-right-color: rgb(100, 220, 255);
@@ -76,9 +189,68 @@
 
 
 /* ================================================== */
-/* GAME OVER BUTTON ENTER EFFECT                      */
-/* Used by Restart and Exit buttons on Game Over.     */
+/* MAIN MENU                                          */
 /* ================================================== */
+
+.main-menu-panel {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.menu-play-button {
+    width: 190px;
+    height: 65px;
+
+    font-size: 20px;
+
+    margin-bottom: 24px;
+}
+
+.menu-exit-button {
+    width: 190px;
+    height: 65px;
+
+    font-size: 20px;
+}
+
+
+/* ================================================== */
+/* GAME OVER BUTTONS                                  */
+/* ================================================== */
+
+.restart-button-game-over {
+    position: absolute;
+
+    right: 32px;
+    top: 28px;
+
+    width: 150px;
+    height: 52px;
+
+    font-size: 17px;
+}
+
+.exit-button-game-over {
+    position: absolute;
+
+    left: 50%;
+    bottom: 40px;
+
+    translate: -50% 0;
+
+    width: 170px;
+    height: 56px;
+
+    font-size: 18px;
+}
 
 .game-over-button-enter {
     opacity: 0;
@@ -97,7 +269,6 @@
     scale: 1.08;
 
     background-color: rgba(60, 160, 210, 0.35);
-    color: rgb(255, 255, 255);
 
     border-top-color: rgb(100, 220, 255);
     border-right-color: rgb(100, 220, 255);
@@ -107,11 +278,10 @@
 
 
 /* ================================================== */
-/* MAIN MENU                                          */
-/* Centers the Play and Exit buttons vertically.      */
+/* POWER-UP CHOICE PANEL                              */
 /* ================================================== */
 
-.main-menu-panel {
+.power-up-choice-panel {
     position: absolute;
 
     left: 0;
@@ -119,47 +289,71 @@
     top: 0;
     bottom: 0;
 
+    display: none;
+
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    background-color: rgba(5, 8, 18, 0.78);
 }
 
-.menu-button {
-    position: relative;
+.power-up-title {
+    color: rgb(255, 255, 255);
+
+    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+
+    font-size: 24px;
+
+    margin-bottom: 28px;
 }
 
-.play-button {
-    margin-bottom: 24px;
+.power-up-button {
+    width: 280px;
+    height: 72px;
+
+    font-size: 18px;
 }
 
-.exit-button {
-    margin-top: 0;
+.missile-button {
+    margin-bottom: 18px;
+
+    border-top-color: rgb(255, 120, 80);
+    border-right-color: rgb(255, 120, 80);
+    border-bottom-color: rgb(255, 120, 80);
+    border-left-color: rgb(255, 120, 80);
 }
 
+.shield-button {
+    border-top-color: rgb(80, 190, 255);
+    border-right-color: rgb(80, 190, 255);
+    border-bottom-color: rgb(80, 190, 255);
+    border-left-color: rgb(80, 190, 255);
+}
 
-/* ================================================== */
-/* RESTART BUTTON                                     */
-/* Displayed on the Game Over screen.                 */
-/* ================================================== */
+.missile-button:hover {
+    background-color: rgba(255, 120, 80, 0.25);
 
-.restart-button {
-    position: absolute;
+    border-top-color: rgb(255, 190, 150);
+    border-right-color: rgb(255, 190, 150);
+    border-bottom-color: rgb(255, 190, 150);
+    border-left-color: rgb(255, 190, 150);
+}
 
-    left: 50%;
-    top: 70%;
+.shield-button:hover {
+    background-color: rgba(80, 190, 255, 0.25);
 
-    translate: -50% -50%;
-
-    width: 190px;
-    height: 65px;
-
-    font-size: 20px;
+    border-top-color: rgb(150, 230, 255);
+    border-right-color: rgb(150, 230, 255);
+    border-bottom-color: rgb(150, 230, 255);
+    border-left-color: rgb(150, 230, 255);
 }
 
 
 /* ================================================== */
 /* ROTATE WARNING                                     */
-/* Shown on mobile when the screen is in portrait.    */
 /* ================================================== */
 
 .rotate-warning-overlay {
@@ -208,9 +402,9 @@
     padding-left: 32px;
 }
 
+
 /* ================================================== */
 /* COUNTDOWN                                          */
-/* Shown before gameplay starts.                      */
 /* ================================================== */
 
 .countdown-label {
@@ -243,4 +437,62 @@
     padding-right: 0;
     padding-bottom: 0;
     padding-left: 0;
+}
+
+/* ================================================== */
+/* COMPLETION BONUS                                   */
+/* Shown when all obstacles are destroyed.            */
+/* ================================================== */
+
+.completion-bonus-label {
+    position: absolute;
+
+    left: 50%;
+    top: 176px;
+
+    translate: -50% 0;
+
+    min-width: 280px;
+
+    display: none;
+
+    opacity: 0;
+    scale: 0.9;
+
+    color: rgb(255, 220, 90);
+    background-color: rgba(16, 22, 39, 0.72);
+
+    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+
+    font-size: 18px;
+
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
+
+    border-top-color: rgb(255, 190, 80);
+    border-right-color: rgb(255, 190, 80);
+    border-bottom-color: rgb(255, 190, 80);
+    border-left-color: rgb(255, 190, 80);
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+    padding-top: 8px;
+    padding-right: 18px;
+    padding-bottom: 8px;
+    padding-left: 18px;
+
+    transition-property: opacity, scale;
+    transition-duration: 0.35s;
+}
+
+.completion-bonus-label-show {
+    opacity: 1;
+    scale: 1.04;
 }

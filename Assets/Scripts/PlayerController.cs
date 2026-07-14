@@ -30,6 +30,16 @@ public sealed class PlayerController : MonoBehaviour
     [Header("Scene References")]
     [SerializeField] private GameObject borderParent;
 
+    [Header("Systems")]
+    [SerializeField] private ObstacleTracker2D obstacleTracker;
+
+    [Header("Power Ups")]
+    [SerializeField] private PlayerShield2D playerShield;
+    [SerializeField] private MissileTargetSelector2D missileTargetSelector;
+
+    [Header("Feedback")]
+    [SerializeField] private CameraShake2D cameraShake;
+
     [Header("Countdown")]
     [SerializeField, Min(0.1f)] private float countdownStepDuration = 1f;
 
@@ -42,10 +52,9 @@ public sealed class PlayerController : MonoBehaviour
     private ScoreManager scoreManager;
 
     private Coroutine countdownCoroutine;
-
     private GameState currentState = GameState.StartMenu;
 
-    private bool IsPlaying => currentState == GameState.Playing;
+    public bool IsGamePlaying => currentState == GameState.Playing;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStaticState()
@@ -61,11 +70,7 @@ public sealed class PlayerController : MonoBehaviour
         collisionHandler = GetComponent<PlayerCollisionHandler2D>();
         scoreManager = GetComponent<ScoreManager>();
 
-        if (uiController == null)
-        {
-            uiController = FindAnyObjectByType<GameUIController>(FindObjectsInactive.Include);
-        }
-
+        ResolveReferences();
         SubscribeToEvents();
     }
 
@@ -77,11 +82,10 @@ public sealed class PlayerController : MonoBehaviour
         if (shouldStartImmediately)
         {
             StartGame();
+            return;
         }
-        else
-        {
-            ShowStartMenu();
-        }
+
+        ShowStartMenu();
     }
 
     private void OnDestroy()
@@ -92,7 +96,7 @@ public sealed class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (!IsPlaying)
+        if (!IsGamePlaying)
         {
             return;
         }
@@ -104,12 +108,51 @@ public sealed class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsPlaying)
+        if (!IsGamePlaying)
         {
             return;
         }
 
         movement.FixedTickMovement();
+    }
+
+    public void CompleteGameWithScoreMultiplier(int finalScoreMultiplier)
+    {
+        if (!IsGamePlaying)
+        {
+            return;
+        }
+
+        scoreManager.ApplyScoreMultiplier(finalScoreMultiplier);
+        GameOver(finalScoreMultiplier);
+    }
+
+    private void ResolveReferences()
+    {
+        if (uiController == null)
+        {
+            uiController = FindAnyObjectByType<GameUIController>(FindObjectsInactive.Include);
+        }
+
+        if (obstacleTracker == null)
+        {
+            obstacleTracker = FindAnyObjectByType<ObstacleTracker2D>();
+        }
+
+        if (playerShield == null)
+        {
+            playerShield = GetComponentInChildren<PlayerShield2D>(true);
+        }
+
+        if (missileTargetSelector == null)
+        {
+            missileTargetSelector = GetComponent<MissileTargetSelector2D>();
+        }
+
+        if (cameraShake == null)
+        {
+            cameraShake = FindAnyObjectByType<CameraShake2D>();
+        }
     }
 
     private void SubscribeToEvents()
@@ -118,6 +161,15 @@ public sealed class PlayerController : MonoBehaviour
 
         scoreManager.ScoreChanged += HandleScoreChanged;
         scoreManager.HighScoreChanged += HandleHighScoreChanged;
+
+        if (obstacleTracker != null)
+        {
+            obstacleTracker.RemainingObstacleCountChanged += HandleRemainingObstacleCountChanged;
+        }
+        else
+        {
+            Debug.LogWarning($"{nameof(PlayerController)}: ObstacleTracker2D was not found.");
+        }
 
         if (uiController == null)
         {
@@ -143,6 +195,11 @@ public sealed class PlayerController : MonoBehaviour
             scoreManager.HighScoreChanged -= HandleHighScoreChanged;
         }
 
+        if (obstacleTracker != null)
+        {
+            obstacleTracker.RemainingObstacleCountChanged -= HandleRemainingObstacleCountChanged;
+        }
+
         if (uiController == null)
         {
             return;
@@ -163,14 +220,62 @@ public sealed class PlayerController : MonoBehaviour
         uiController?.UpdateHighScore(newHighScore);
     }
 
+    private void HandleRemainingObstacleCountChanged(int remainingObstacleCount)
+    {
+        uiController?.UpdateObstacleCount(remainingObstacleCount);
+    }
+
     private void HandlePlayerCollision(Collision2D collision)
     {
-        if (!IsPlaying)
+        if (!IsGamePlaying)
         {
             return;
         }
 
+        bool isObstacleCollision = IsObstacleCollision(collision);
+        bool isBorderCollision = IsBorderCollision(collision);
+
+        if (ShouldIgnoreCollisionDueToShield(isObstacleCollision, isBorderCollision))
+        {
+            cameraShake?.ShakeShieldImpact();
+            return;
+        }
+
+        if (isObstacleCollision || isBorderCollision)
+        {
+            cameraShake?.ShakePlayerImpact();
+        }
+
         GameOver();
+    }
+
+    private bool ShouldIgnoreCollisionDueToShield(bool isObstacleCollision, bool isBorderCollision)
+    {
+        if (playerShield == null || !playerShield.IsActive)
+        {
+            return false;
+        }
+
+        return isObstacleCollision || isBorderCollision;
+    }
+
+    private bool IsObstacleCollision(Collision2D collision)
+    {
+        return collision.gameObject.GetComponentInParent<Obstacle>() != null;
+    }
+
+    private bool IsBorderCollision(Collision2D collision)
+    {
+        if (borderParent == null)
+        {
+            return false;
+        }
+
+        Transform collisionTransform = collision.gameObject.transform;
+        Transform borderTransform = borderParent.transform;
+
+        return collisionTransform == borderTransform ||
+               collisionTransform.IsChildOf(borderTransform);
     }
 
     private void ShowStartMenu()
@@ -178,8 +283,10 @@ public sealed class PlayerController : MonoBehaviour
         StopCountdown();
 
         currentState = GameState.StartMenu;
-
         Time.timeScale = 0f;
+
+        playerShield?.Deactivate();
+        missileTargetSelector?.CancelTargetSelection();
 
         movement.SetMovementEnabled(false);
         collisionHandler.SetCollisionDetectionEnabled(false);
@@ -190,6 +297,8 @@ public sealed class PlayerController : MonoBehaviour
         SetBordersActive(true);
 
         uiController?.HideCountdown();
+        uiController?.HidePowerUpChoice();
+        uiController?.UpdateObstacleCount(0);
         uiController?.ShowStartMenu(scoreManager.HighScore);
     }
 
@@ -198,10 +307,10 @@ public sealed class PlayerController : MonoBehaviour
         StopCountdown();
 
         currentState = GameState.Countdown;
-
-        // Keep the game paused during countdown.
-        // WaitForSecondsRealtime is used so the countdown still runs while Time.timeScale is 0.
         Time.timeScale = 0f;
+
+        playerShield?.Deactivate();
+        missileTargetSelector?.CancelTargetSelection();
 
         scoreManager.ResetCurrentScore();
 
@@ -232,11 +341,18 @@ public sealed class PlayerController : MonoBehaviour
     private void BeginPlaying()
     {
         currentState = GameState.Playing;
-
         Time.timeScale = 1f;
 
         uiController?.HideCountdown();
+        uiController?.HidePowerUpChoice();
         uiController?.ShowPlaying(scoreManager.HighScore);
+
+        obstacleTracker?.RefreshObstacleList();
+
+        if (obstacleTracker != null)
+        {
+            uiController?.UpdateObstacleCount(obstacleTracker.RemainingObstacleCount);
+        }
 
         movement.SetMovementEnabled(true);
         collisionHandler.SetCollisionDetectionEnabled(true);
@@ -245,11 +361,14 @@ public sealed class PlayerController : MonoBehaviour
         SetBordersActive(true);
     }
 
-    private void GameOver()
+    private void GameOver(int completionScoreMultiplier = 1)
     {
         StopCountdown();
 
         currentState = GameState.GameOver;
+
+        playerShield?.Deactivate();
+        missileTargetSelector?.CancelTargetSelection();
 
         movement.SetMovementEnabled(false);
         collisionHandler.SetCollisionDetectionEnabled(false);
@@ -261,11 +380,13 @@ public sealed class PlayerController : MonoBehaviour
         SetBordersActive(false);
 
         uiController?.HideCountdown();
+        uiController?.HidePowerUpChoice();
 
         uiController?.ShowGameOver(
             scoreManager.CurrentScore,
             scoreManager.HighScore,
-            hasNewHighScore
+            hasNewHighScore,
+            completionScoreMultiplier
         );
     }
 
