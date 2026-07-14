@@ -1,10 +1,15 @@
 # Kavorix Drift
 
-**Kavorix Drift** is a 2D space survival game built with Unity.
+![Unity](https://img.shields.io/badge/Engine-Unity-black?logo=unity)
+![C#](https://img.shields.io/badge/Language-C%23-68217A?logo=csharp)
+![Platform](https://img.shields.io/badge/Platform-WebGL%20%7C%20Android%20%7C%20Windows-blue)
+![Status](https://img.shields.io/badge/Status-Playable-brightgreen)
 
-The project was originally created while following Unity Learn's **Game Development Pathway**, specifically the **Create a Basic 2D Game** mission. It was later expanded with custom gameplay scripts, UI polish, responsive layout systems, particle effects, high score tracking, custom visuals, and music.
+**Kavorix Drift** is a polished 2D space survival game built with Unity.
 
-The goal is simple: control your spaceship, avoid obstacles, survive as long as possible, and beat your high score.
+The project started as part of Unity Learn's **Game Development Pathway** and was expanded into a complete playable prototype with custom gameplay systems, power-ups, responsive UI, particles, sound effects, camera feedback, high score tracking, and custom visual presentation.
+
+The goal is simple: control your spaceship, avoid obstacles, collect power-ups, survive as long as possible, and beat your high score.
 
 ---
 
@@ -16,70 +21,71 @@ You can play **Kavorix Drift** on Unity Play:
 
 ---
 
-## About the Project
+## Gameplay
 
-**Kavorix Drift** is a small polished Unity learning project focused on 2D physics-based movement, obstacle avoidance, responsive layout, and UI Toolkit-based menus.
+The player controls a spaceship drifting through a 2D space arena.
 
-The project started as a Unity Learn exercise and was expanded into a more complete playable prototype with additional gameplay systems, custom visual presentation, music, sound effects, and a cleaner modular script structure.
+Obstacles move around the play area, and the player must avoid colliding with them. The score increases over time, so surviving longer results in a higher score.
 
-Main development goals:
+During gameplay, power-ups can appear. When collected, the player can choose between two abilities:
 
-- Build a complete small-scale 2D game prototype
-- Practice Unity physics, input handling, UI Toolkit, particles, and scene organization
-- Improve the original Unity Learn project with custom systems
-- Refactor gameplay code into smaller and more maintainable components
-- Prepare the project for public GitHub sharing
+- **Guided Missile** — select and destroy an obstacle.
+- **Shield** — temporarily protect the player from obstacle and border collisions.
+
+If all obstacles are destroyed, the game ends with an **all-clear bonus**, multiplying the final score by `x10`.
 
 ---
 
-## Gameplay
+## Controls
 
-The player controls a spaceship drifting through space.
+Kavorix Drift uses pointer-based movement. The spaceship rotates toward the current pointer or touch position, and thrust is applied only while the input is held.
 
-Obstacles move around the game area, and the player must avoid colliding with them. The score increases over time, so surviving longer results in a higher score.
+### Desktop
 
-When the player collides with an obstacle or border, the game ends. The final score is compared with the saved high score, and a new high score message is shown when the player beats the previous record.
+| Action | Control |
+| --- | --- |
+| Aim / rotate ship | Move the mouse pointer |
+| Thrust | Hold the primary mouse button |
+| Collect power-up | Move the ship into the pickup |
+| Choose power-up | Click **Missile** or **Shield** |
+| Select missile target | Click an obstacle after choosing the guided missile |
 
-The main objective is to survive as long as possible.
+### Mobile
+
+| Action | Control |
+| --- | --- |
+| Aim / rotate ship | Move your finger on the screen |
+| Thrust | Touch and hold |
+| Collect power-up | Move the ship into the pickup |
+| Choose power-up | Tap **Missile** or **Shield** |
+| Select missile target | Tap an obstacle after choosing the guided missile |
+
+Landscape orientation is recommended for mobile gameplay.
 
 ---
 
 ## Features
 
 - 2D physics-based spaceship movement
-- Pointer-based thrust direction
-- Randomized obstacle size, force, and spin
-- Velocity limiting for player and obstacles
-- Collision-based game over system
+- Pointer and touch-based thrust direction
+- Pre-game countdown
+- Randomized obstacle size, speed, force, and spin
 - Score and high score system using `PlayerPrefs`
-- Start menu and game over menu
-- New high score feedback animation
+- Missile and shield power-up system
+- Guided missile target selection
+- Target indicator for selected obstacles
+- Temporary shield protection
+- Obstacle tracking and remaining obstacle count UI
+- All-clear `x10` completion bonus
 - UI built with Unity UI Toolkit
+- Start menu, power-up choice UI, and game over UI
+- New high score and completion bonus feedback
 - Responsive orthographic camera layout
-- Dynamic background scaling
-- Responsive border positioning
+- Dynamic background and border scaling
 - Mobile portrait orientation warning
-- Optional pause behavior in portrait orientation
-- Boost particle effect and boost audio
-- Explosion effect on player death
-- Bounce effect on obstacle collisions
+- Boost, explosion, bounce, impact, and camera shake feedback
+- Obstacle-border and obstacle-obstacle impact audio
 - WebGL, Android, and Windows build profile setup
-
----
-
-## Controls
-
-### Desktop
-
-- Hold the primary mouse button to thrust.
-- Move the pointer to rotate the ship toward the pointer position.
-- Avoid obstacles and survive as long as possible.
-
-### Mobile
-
-- Touch and hold to thrust.
-- Move your finger to control the ship direction.
-- Landscape orientation is recommended.
 
 ---
 
@@ -88,15 +94,10 @@ The main objective is to survive as long as possible.
 ```text
 Assets/
 ├── Art/
-│   ├── Particles/
-│   └── Sprites/
-│       └── Obstacles/
 ├── Audio/
-│   └── sfx/
 ├── Fonts/
 ├── Materials/
 ├── Prefabs/
-│   └── Environment/
 ├── Scenes/
 ├── Scripts/
 ├── Settings/
@@ -104,46 +105,50 @@ Assets/
 └── UI Toolkit/
 
 Packages/
-├── manifest.json
-└── packages-lock.json
-
 ProjectSettings/
 ```
 
-### Important Folders
-
 | Folder | Description |
 | --- | --- |
-| `Assets/Art` | Contains icons, logo, splash image, sprites, particle textures, and visual assets. |
-| `Assets/Audio` | Contains background music and sound effects. |
-| `Assets/Fonts` | Contains the font used by the UI. |
-| `Assets/Materials` | Contains particle materials and the 2D physics material. |
-| `Assets/Prefabs` | Contains reusable game objects such as obstacles, effects, and environment prefabs. |
-| `Assets/Scenes` | Contains the main Unity scene. |
-| `Assets/Scripts` | Contains gameplay, UI, scoring, movement, collision, and layout scripts. |
-| `Assets/Settings` | Contains render pipeline, input system, scene template, and build profile settings. |
-| `Assets/UI` | Contains UI Toolkit USS and UXML files. |
-| `Assets/UI Toolkit` | Contains panel settings and UI Toolkit theme files. |
-| `Packages` | Contains Unity package dependency information. |
-| `ProjectSettings` | Contains Unity project configuration files. |
+| `Assets/Art` | Sprites, icons, splash images, particle textures, and visual assets. |
+| `Assets/Audio` | Background music and sound effects. |
+| `Assets/Fonts` | UI font assets. |
+| `Assets/Materials` | Particle materials and 2D physics materials. |
+| `Assets/Prefabs` | Reusable game objects such as obstacles, effects, power-ups, and environment prefabs. |
+| `Assets/Scenes` | Main Unity scene. |
+| `Assets/Scripts` | Gameplay, UI, scoring, movement, collision, power-up, feedback, and layout scripts. |
+| `Assets/UI` | UI Toolkit USS and UXML files. |
+| `Packages` | Unity package dependency information. |
+| `ProjectSettings` | Unity project configuration files. |
 
 ---
 
 ## Main Scripts
 
-The project uses a modular script structure instead of keeping all gameplay logic inside a single large controller.
+The project uses a modular script structure instead of keeping all gameplay logic in a single large controller.
 
 | Script | Purpose |
 | --- | --- |
-| `PlayerController.cs` | Coordinates the main game flow, including start, gameplay, game over, restart, and exit behavior. |
-| `PlayerMovement2D.cs` | Handles player input, rotation, thrust movement, and speed clamping. |
+| `PlayerController.cs` | Coordinates game flow, countdown, gameplay, game over, restart, exit behavior, camera shake triggers, and completion bonus flow. |
+| `PlayerMovement2D.cs` | Handles player input, rotation, thrust movement, pointer tracking, and speed clamping. |
 | `PlayerBoostEffect.cs` | Controls boost particles and boost audio. |
 | `PlayerCollisionHandler2D.cs` | Detects player collisions and notifies the main controller. |
 | `PlayerDeathHandler2D.cs` | Handles explosion, physics disabling, and player visibility after death. |
-| `ScoreManager.cs` | Manages score calculation, high score saving, and high score reset. |
-| `GameUIController.cs` | Controls UI Toolkit menus, score labels, high score feedback, and button events. |
-| `Obstacle.cs` | Handles obstacle size randomization, movement, spin, velocity limiting, and bounce effects. |
-| `OrientationWarningUI.cs` | Shows a portrait mode warning overlay on mobile and can pause the game in portrait orientation. |
+| `ScoreManager.cs` | Manages score, high score, score milestones, and final score multiplier logic. |
+| `GameUIController.cs` | Controls UI Toolkit menus, score labels, power-up choice UI, high score feedback, completion bonus feedback, and button events. |
+| `Obstacle.cs` | Handles obstacle randomization, movement, spin, velocity limiting, bounce effects, impulse behavior, and destruction. |
+| `ObstacleTracker2D.cs` | Tracks remaining obstacles and triggers the all-clear completion bonus. |
+| `PowerUpSpawner2D.cs` | Spawns power-up pickups inside the safe play area. |
+| `PowerUpPickup2D.cs` | Handles pickup collection, rotation, lifetime, and pickup sound. |
+| `PlayerPowerUpController.cs` | Handles power-up collection, selection flow, and activation. |
+| `PlayerShield2D.cs` | Controls shield activation, duration, visual state, obstacle bounce behavior, and shield impact audio. |
+| `GuidedMissile2D.cs` | Controls missile movement, target tracking, obstacle destruction, effects, audio, and camera shake. |
+| `MissileTargetSelector2D.cs` | Handles obstacle selection for the guided missile. |
+| `TargetIndicatorFollower2D.cs` | Keeps the target indicator centered on the selected obstacle. |
+| `CameraShake2D.cs` | Provides camera shake feedback for impacts and explosions. |
+| `BorderImpactAudio2D.cs` | Plays impact sound effects when obstacles hit borders. |
+| `ObstacleCollisionAudio2D.cs` | Plays impact sound effects when obstacles collide with each other. |
+| `OrientationWarningUI.cs` | Shows a portrait mode warning overlay on mobile. |
 | `ResponsiveGameArea.cs` | Adjusts the camera, background, and borders for different screen sizes. |
 
 ---
@@ -154,11 +159,11 @@ Recommended setup:
 
 - Unity 6 or newer
 - Universal Render Pipeline 2D
-- Unity Input System package
+- Unity Input System
 - Unity UI Toolkit
-- Git for version control
+- Git
 
-To check the Unity version used by the project, open:
+The Unity version used by the project is listed in:
 
 ```text
 ProjectSettings/ProjectVersion.txt
@@ -166,39 +171,27 @@ ProjectSettings/ProjectVersion.txt
 
 ---
 
-## How to Run the Project
+## Setup
 
-1. Clone the repository:
+Clone the repository:
 
 ```bash
 git clone https://github.com/sfurkanuykusuz/kavorix-drift.git
 ```
 
-2. Open Unity Hub.
+Open the project with the Unity version specified in `ProjectSettings/ProjectVersion.txt`.
 
-3. Click **Add project from disk**.
-
-4. Select the cloned project folder.
-
-5. Open the project with the Unity version specified in:
-
-```text
-ProjectSettings/ProjectVersion.txt
-```
-
-6. Open the main scene:
+Main scene:
 
 ```text
 Assets/Scenes/Game.unity
 ```
 
-7. Press **Play** in the Unity Editor.
-
 ---
 
 ## Build Targets
 
-The project includes build profile settings for:
+The project includes build profile setup for:
 
 - Web Desktop
 - Web Mobile
@@ -207,9 +200,7 @@ The project includes build profile settings for:
 
 Build outputs are intentionally excluded from version control.
 
-The current playable WebGL version is available on Unity Play:
-
-[Play Kavorix Drift on Unity Play](https://play.unity.com/en/games/5c8a72da-99cc-4458-9b56-0598dc00b2bd/kavorix-drift)
+For Android, landscape orientation is recommended. The project also includes a portrait warning UI for unsupported orientation flow.
 
 ---
 
@@ -225,7 +216,7 @@ Packages/
 ProjectSettings/
 ```
 
-Generated folders and build outputs such as `Library/`, `Temp/`, `Build/`, `Builds/`, `Logs/`, and Unity build backup/debug folders are excluded from version control.
+Generated folders such as `Library/`, `Temp/`, `Build/`, `Builds/`, `Logs/`, and Unity backup/debug folders are excluded from version control.
 
 Unity `.meta` files are included because they are required for asset references, prefab links, scene references, import settings, and GUID consistency.
 
@@ -241,10 +232,12 @@ Asset categories include:
 
 - Player sprite
 - Obstacle sprites
+- Power-up visuals
+- Missile visual
+- Shield visual
+- Target indicator
 - Background image
-- Particle texture
-- Logo and icon assets
-- Splash image
+- Particle textures
 - Background music
 - Sound effects
 
@@ -254,28 +247,22 @@ Asset categories include:
 
 Created by following Unity Learn's **Game Development Pathway** and expanded into a custom personal game project.
 
-Additional work includes:
-
-- Custom gameplay scripting
-- Modular player controller refactor
-- UI Toolkit interface
-- Responsive game area system
-- Custom visual presentation
-- Music and sound integration
-- WebGL and Android build preparation
+Additional work includes custom gameplay scripting, modular code refactoring, missile and shield power-ups, UI Toolkit interface, responsive layout systems, camera shake, impact feedback, custom visuals, audio integration, and WebGL/Android build preparation.
 
 ---
 
 ## Project Status
 
-**Kavorix Drift** is currently a small polished Unity learning project prepared for public GitHub sharing.
+**Kavorix Drift** is a playable Unity learning project.
 
-Current status:
+Implemented systems include:
 
-- Core gameplay is playable
-- UI flow is implemented
-- High score system is implemented
-- Responsive layout is implemented
-- Mobile orientation warning is implemented
-- Scripts have been refactored into smaller components
-- Project is available on Unity Play
+- Core gameplay loop
+- Pre-game countdown
+- High score system
+- Missile and shield power-ups
+- Obstacle tracking and all-clear bonus
+- Camera shake and impact feedback
+- Responsive UI and game area layout
+- Mobile orientation warning
+- Unity Play WebGL build
