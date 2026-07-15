@@ -4,6 +4,7 @@
 ![C#](https://img.shields.io/badge/Language-C%23-68217A?logo=csharp)
 ![Platform](https://img.shields.io/badge/Platform-WebGL%20%7C%20Android%20%7C%20Windows-blue)
 ![Status](https://img.shields.io/badge/Status-Playable-brightgreen)
+[![itch.io](https://img.shields.io/badge/Play%20on-itch.io-FA5C5C?logo=itchdotio&logoColor=white)](https://sfurkanuykusuz.itch.io/kavorix-drift)
 
 **Kavorix Drift** is a polished 2D space survival game built with Unity.
 
@@ -15,7 +16,9 @@ The goal is simple: control your spaceship, avoid obstacles, collect power-ups, 
 
 ## Play the Game
 
-You can play **Kavorix Drift** on Unity Play:
+You can play **Kavorix Drift** in the browser:
+
+[Play Kavorix Drift on itch.io](https://sfurkanuykusuz.itch.io/kavorix-drift)
 
 [Play Kavorix Drift on Unity Play](https://play.unity.com/en/games/5c8a72da-99cc-4458-9b56-0598dc00b2bd/kavorix-drift)
 
