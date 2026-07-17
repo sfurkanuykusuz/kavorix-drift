@@ -80,7 +80,9 @@ Landscape orientation is recommended for mobile gameplay.
 - Temporary shield protection
 - Obstacle tracking and remaining obstacle count UI
 - All-clear `x10` completion bonus
+- Power-up spawn, idle shine, pulse, and pickup feedback
 - UI built with Unity UI Toolkit
+- Responsive UI scaling for desktop, mobile WebGL, and narrow screen layouts
 - Start menu, power-up choice UI, and game over UI
 - New high score and completion bonus feedback
 - Responsive orthographic camera layout
@@ -139,10 +141,11 @@ The project uses a modular script structure instead of keeping all gameplay logi
 | `PlayerDeathHandler2D.cs` | Handles explosion, physics disabling, and player visibility after death. |
 | `ScoreManager.cs` | Manages score, high score, score milestones, and final score multiplier logic. |
 | `GameUIController.cs` | Controls UI Toolkit menus, score labels, power-up choice UI, high score feedback, completion bonus feedback, and button events. |
+| `GameUIResponsiveLayout.cs` | Applies responsive UI classes based on screen size to support desktop, mobile WebGL, and narrow layouts. |
 | `Obstacle.cs` | Handles obstacle randomization, movement, spin, velocity limiting, bounce effects, impulse behavior, and destruction. |
 | `ObstacleTracker2D.cs` | Tracks remaining obstacles and triggers the all-clear completion bonus. |
 | `PowerUpSpawner2D.cs` | Spawns power-up pickups inside the safe play area. |
-| `PowerUpPickup2D.cs` | Handles pickup collection, rotation, lifetime, and pickup sound. |
+| `PowerUpPickup2D.cs` | Handles pickup collection, rotation, lifetime, spawn feedback, idle pulse, shine effects, pickup effects, and pickup sound. |
 | `PlayerPowerUpController.cs` | Handles power-up collection, selection flow, and activation. |
 | `PlayerShield2D.cs` | Controls shield activation, duration, visual state, obstacle bounce behavior, and shield impact audio. |
 | `GuidedMissile2D.cs` | Controls missile movement, target tracking, obstacle destruction, effects, audio, and camera shake. |
@@ -203,7 +206,7 @@ The project includes build profile setup for:
 
 Build outputs are intentionally excluded from version control.
 
-For Android, landscape orientation is recommended. The project also includes a portrait warning UI for unsupported orientation flow.
+For Android and mobile WebGL, landscape orientation is recommended. The project also includes a portrait warning UI for unsupported orientation flow.
 
 ---
 
@@ -241,6 +244,7 @@ Asset categories include:
 - Target indicator
 - Background image
 - Particle textures
+- Power-up feedback effects
 - Background music
 - Sound effects
 
@@ -250,7 +254,7 @@ Asset categories include:
 
 Created by following Unity Learn's **Game Development Pathway** and expanded into a custom personal game project.
 
-Additional work includes custom gameplay scripting, modular code refactoring, missile and shield power-ups, UI Toolkit interface, responsive layout systems, camera shake, impact feedback, custom visuals, audio integration, and WebGL/Android build preparation.
+Additional work includes custom gameplay scripting, modular code refactoring, missile and shield power-ups, UI Toolkit interface, responsive layout systems, camera shake, impact feedback, power-up visual feedback, custom visuals, audio integration, and WebGL/Android build preparation.
 
 ---
 
@@ -264,8 +268,11 @@ Implemented systems include:
 - Pre-game countdown
 - High score system
 - Missile and shield power-ups
+- Power-up spawn, shine, pulse, and pickup feedback
 - Obstacle tracking and all-clear bonus
 - Camera shake and impact feedback
 - Responsive UI and game area layout
+- Mobile WebGL and narrow screen UI support
 - Mobile orientation warning
+- itch.io WebGL build
 - Unity Play WebGL build
