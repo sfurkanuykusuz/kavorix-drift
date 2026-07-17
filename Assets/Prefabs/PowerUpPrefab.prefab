@@ -146,6 +146,17 @@ MonoBehaviour:
   visualTransform: {fileID: 6859454379196786534}
   rotationSpeed: 45
   useUnscaledTime: 0
+  enablePulse: 1
+  pulseScaleAmount: 0.08
+  pulseSpeed: 3
+  spawnEffectPrefab: {fileID: 1138546923913036221, guid: 731e160555390254798e091b11d9d148, type: 3}
+  spawnEffectLifetime: 1
+  idleShineEffectPrefab: {fileID: 3785626305012409633, guid: fb67dbf3edfaab14faaada7e04a73aaa, type: 3}
+  minShineInterval: 1.8
+  maxShineInterval: 3.4
+  idleShineEffectLifetime: 1
+  pickupEffectPrefab: {fileID: 1139626823915007421, guid: e62ef047bf95bb54e8fa527484ced770, type: 3}
+  pickupEffectLifetime: 1
   pickupSfx: {fileID: 8300000, guid: bd9e480a09d4e9f44b07bc3b0bdb3e00, type: 3}
   pickupSfxVolume: 0.75
 --- !u!82 &-8446281388375034192

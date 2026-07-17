@@ -8,8 +8,8 @@
     <ui:Label text="Label" name="CountdownLabel" class="countdown-label" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&amp;guid=f88f7ddf669031c47b3157a4d475a48d&amp;type=3#Michroma-Regular&quot;);"/>
     <ui:Button text="Restart" name="RestartButton" picking-mode="Position" parse-escape-sequences="true" class="game-button restart-button-game-over"/>
     <ui:VisualElement name="MainMenuPanel" class="main-menu-panel">
-        <ui:Button text="Play" name="PlayButton" class="game-button menu-play-button" style="top: 45px; left: auto; position: absolute;"/>
-        <ui:Button text="Exit" name="MenuExitButton" class="game-button menu-exit-button" style="right: auto;"/>
+        <ui:Button text="Play" name="PlayButton" class="game-button menu-play-button"/>
+        <ui:Button text="Exit" name="MenuExitButton" class="game-button menu-exit-button"/>
     </ui:VisualElement>
     <ui:VisualElement name="RotateWarningOverlay" class="rotate-warning-overlay">
         <ui:Label text="Please rotate your device" name="RotateWarningText" emoji-fallback-support="false" class="rotate-warning-text" style="-unity-font-definition: url(&quot;project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&amp;guid=f88f7ddf669031c47b3157a4d475a48d&amp;type=3#Michroma-Regular&quot;);"/>

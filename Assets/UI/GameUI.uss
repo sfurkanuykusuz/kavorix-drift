@@ -1,25 +1,40 @@
 /* ================================================== */
+/* SHARED FONT                                        */
+/* ================================================== */
+
+.hud-label,
+.new-high-score-label,
+.game-button,
+.power-up-title,
+.rotate-warning-text,
+.countdown-label,
+.completion-bonus-label {
+    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
+}
+
+
+/* ================================================== */
 /* SCORE FEEDBACK                                     */
 /* ================================================== */
 
 .new-high-score-text {
     opacity: 0;
-    scale: 0.8;
+    scale: 0.84;
 
     transition-property: opacity, scale;
-    transition-duration: 0.35s;
+    transition-duration: 0.3s;
 }
 
 .new-high-score-text-show {
     opacity: 1;
-    scale: 1.04;
+    scale: 1;
 }
 
 .high-score-flash {
-    scale: 1.06;
+    scale: 1.04;
 
     transition-property: scale;
-    transition-duration: 0.18s;
+    transition-duration: 0.16s;
 }
 
 
@@ -30,16 +45,16 @@
 .hud-label {
     position: absolute;
 
-    min-width: 150px;
+    min-width: 128px;
+    max-width: 86%;
 
     color: rgb(255, 255, 255);
     background-color: rgba(16, 22, 39, 0.58);
 
-    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
     -unity-font-style: normal;
     -unity-text-align: middle-center;
 
-    font-size: 17px;
+    font-size: 14px;
 
     border-top-width: 3px;
     border-right-width: 3px;
@@ -51,15 +66,15 @@
     border-bottom-color: rgb(40, 133, 188);
     border-left-color: rgb(40, 133, 188);
 
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    border-bottom-right-radius: 9px;
-    border-bottom-left-radius: 9px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
 
-    padding-top: 6px;
-    padding-right: 16px;
-    padding-bottom: 6px;
-    padding-left: 16px;
+    padding-top: 5px;
+    padding-right: 12px;
+    padding-bottom: 5px;
+    padding-left: 12px;
 
     margin-top: 0;
     margin-right: 0;
@@ -69,38 +84,38 @@
 
 .score-label {
     left: 50%;
-    top: 18px;
+    top: 12px;
 
     translate: -50% 0;
 }
 
 .high-score-label {
     left: 50%;
-    top: 72px;
+    top: 56px;
 
     translate: -50% 0;
 
-    min-width: 225px;
+    min-width: 198px;
 }
 
 .new-high-score-label {
     position: absolute;
 
     left: 50%;
-    top: 124px;
+    top: 104px;
 
     translate: -50% 0;
 
-    min-width: 225px;
+    min-width: 198px;
+    max-width: 86%;
 
     color: rgb(255, 230, 120);
     background-color: rgba(16, 22, 39, 0.68);
 
-    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
     -unity-font-style: bold;
     -unity-text-align: middle-center;
 
-    font-size: 17px;
+    font-size: 14px;
 
     border-top-width: 3px;
     border-right-width: 3px;
@@ -112,15 +127,15 @@
     border-bottom-color: rgb(255, 210, 90);
     border-left-color: rgb(255, 210, 90);
 
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    border-bottom-right-radius: 9px;
-    border-bottom-left-radius: 9px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
 
-    padding-top: 6px;
-    padding-right: 16px;
-    padding-bottom: 6px;
-    padding-left: 16px;
+    padding-top: 5px;
+    padding-right: 12px;
+    padding-bottom: 5px;
+    padding-left: 12px;
 
     margin-top: 0;
     margin-right: 0;
@@ -129,10 +144,10 @@
 }
 
 .obstacle-count-label {
-    right: 36px;
-    bottom: 32px;
+    right: 18px;
+    bottom: 18px;
 
-    min-width: 155px;
+    min-width: 132px;
 
     display: none;
 }
@@ -145,39 +160,43 @@
 .game-button {
     scale: 1;
 
-    width: 180px;
-    height: 70px;
+    width: 158px;
+    height: 54px;
 
     background-color: rgba(16, 22, 39, 0.51);
     color: rgb(255, 255, 255);
 
-    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
     -unity-font-style: normal;
     -unity-text-align: middle-center;
 
-    font-size: 22px;
+    font-size: 17px;
 
-    border-top-width: 4px;
-    border-right-width: 4px;
-    border-bottom-width: 4px;
-    border-left-width: 4px;
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
 
     border-top-color: rgb(40, 133, 188);
     border-right-color: rgb(40, 133, 188);
     border-bottom-color: rgb(40, 133, 188);
     border-left-color: rgb(40, 133, 188);
 
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
 
     transition-property: scale, background-color, border-top-color, border-right-color, border-bottom-color, border-left-color;
     transition-duration: 0.15s;
 }
 
 .game-button:hover {
-    scale: 1.08;
+    scale: 1.03;
 
     background-color: rgba(60, 160, 210, 0.35);
 
@@ -200,25 +219,36 @@
     top: 0;
     bottom: 0;
 
+    display: flex;
+
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    padding-top: 32px;
+    padding-right: 24px;
+    padding-bottom: 32px;
+    padding-left: 24px;
 }
 
 .menu-play-button {
-    width: 190px;
-    height: 65px;
+    position: relative;
 
-    font-size: 20px;
+    width: 176px;
+    height: 56px;
 
-    margin-bottom: 24px;
+    font-size: 18px;
+
+    margin-bottom: 18px;
 }
 
 .menu-exit-button {
-    width: 190px;
-    height: 65px;
+    position: relative;
 
-    font-size: 20px;
+    width: 176px;
+    height: 56px;
+
+    font-size: 18px;
 }
 
 
@@ -229,35 +259,35 @@
 .restart-button-game-over {
     position: absolute;
 
-    right: 32px;
-    top: 28px;
+    right: 18px;
+    top: 16px;
 
-    width: 150px;
-    height: 52px;
+    width: 138px;
+    height: 44px;
 
-    font-size: 17px;
+    font-size: 14px;
 }
 
 .exit-button-game-over {
     position: absolute;
 
     left: 50%;
-    bottom: 40px;
+    bottom: 18px;
 
     translate: -50% 0;
 
-    width: 170px;
-    height: 56px;
+    width: 148px;
+    height: 44px;
 
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .game-over-button-enter {
     opacity: 0;
-    scale: 0.85;
+    scale: 0.9;
 
     transition-property: opacity, scale, background-color, border-top-color, border-right-color, border-bottom-color, border-left-color;
-    transition-duration: 0.25s;
+    transition-duration: 0.22s;
 }
 
 .game-over-button-enter-show {
@@ -266,7 +296,7 @@
 }
 
 .game-over-button-enter-show:hover {
-    scale: 1.08;
+    scale: 1.03;
 
     background-color: rgba(60, 160, 210, 0.35);
 
@@ -295,30 +325,36 @@
     align-items: center;
     flex-direction: column;
 
+    padding-top: 32px;
+    padding-right: 24px;
+    padding-bottom: 32px;
+    padding-left: 24px;
+
     background-color: rgba(5, 8, 18, 0.78);
 }
 
 .power-up-title {
+    max-width: 86%;
+
     color: rgb(255, 255, 255);
 
-    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
     -unity-font-style: bold;
     -unity-text-align: middle-center;
 
-    font-size: 24px;
+    font-size: 19px;
 
-    margin-bottom: 28px;
+    margin-bottom: 20px;
 }
 
 .power-up-button {
-    width: 280px;
-    height: 72px;
+    width: 236px;
+    height: 58px;
 
-    font-size: 18px;
+    font-size: 15px;
 }
 
 .missile-button {
-    margin-bottom: 18px;
+    margin-bottom: 14px;
 
     border-top-color: rgb(255, 120, 80);
     border-right-color: rgb(255, 120, 80);
@@ -369,37 +405,44 @@
     justify-content: center;
     align-items: center;
 
+    padding-top: 32px;
+    padding-right: 24px;
+    padding-bottom: 32px;
+    padding-left: 24px;
+
     background-color: rgba(5, 8, 18, 0.95);
 }
 
 .rotate-warning-text {
+    max-width: 86%;
+
     color: rgb(255, 255, 255);
     background-color: rgba(16, 22, 39, 0.9);
 
-    font-size: 28px;
+    font-size: 20px;
 
     -unity-font-style: bold;
     -unity-text-align: middle-center;
 
-    border-top-width: 4px;
-    border-right-width: 4px;
-    border-bottom-width: 4px;
-    border-left-width: 4px;
+    border-top-width: 3px;
+    border-right-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 3px;
 
     border-top-color: rgb(40, 133, 188);
     border-right-color: rgb(40, 133, 188);
     border-bottom-color: rgb(40, 133, 188);
     border-left-color: rgb(40, 133, 188);
 
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
-    border-bottom-right-radius: 14px;
-    border-bottom-left-radius: 14px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
 
-    padding-top: 24px;
-    padding-right: 32px;
-    padding-bottom: 24px;
-    padding-left: 32px;
+    padding-top: 16px;
+    padding-right: 22px;
+    padding-bottom: 16px;
+    padding-left: 22px;
 }
 
 
@@ -422,11 +465,10 @@
 
     color: rgb(255, 255, 255);
 
-    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
     -unity-font-style: bold;
     -unity-text-align: middle-center;
 
-    font-size: 96px;
+    font-size: 72px;
 
     margin-top: 0;
     margin-right: 0;
@@ -439,20 +481,21 @@
     padding-left: 0;
 }
 
+
 /* ================================================== */
 /* COMPLETION BONUS                                   */
-/* Shown when all obstacles are destroyed.            */
 /* ================================================== */
 
 .completion-bonus-label {
     position: absolute;
 
     left: 50%;
-    top: 176px;
+    top: 154px;
 
     translate: -50% 0;
 
-    min-width: 280px;
+    min-width: 220px;
+    max-width: 86%;
 
     display: none;
 
@@ -462,11 +505,10 @@
     color: rgb(255, 220, 90);
     background-color: rgba(16, 22, 39, 0.72);
 
-    -unity-font-definition: url("project://database/Assets/Fonts/Michroma-Regular.ttf?fileID=12800000&guid=f88f7ddf669031c47b3157a4d475a48d&type=3#Michroma-Regular");
     -unity-font-style: bold;
     -unity-text-align: middle-center;
 
-    font-size: 18px;
+    font-size: 14px;
 
     border-top-width: 3px;
     border-right-width: 3px;
@@ -478,21 +520,317 @@
     border-bottom-color: rgb(255, 190, 80);
     border-left-color: rgb(255, 190, 80);
 
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    border-bottom-right-radius: 9px;
+    border-bottom-left-radius: 9px;
 
-    padding-top: 8px;
-    padding-right: 18px;
-    padding-bottom: 8px;
-    padding-left: 18px;
+    padding-top: 6px;
+    padding-right: 12px;
+    padding-bottom: 6px;
+    padding-left: 12px;
 
     transition-property: opacity, scale;
-    transition-duration: 0.35s;
+    transition-duration: 0.3s;
 }
 
 .completion-bonus-label-show {
     opacity: 1;
-    scale: 1.04;
+    scale: 1;
+}
+
+
+/* ================================================== */
+/* COMPACT RESPONSIVE LAYOUT                          */
+/* ================================================== */
+
+.ui-compact .hud-label {
+    min-width: 112px;
+
+    font-size: 12px;
+
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+
+    padding-top: 4px;
+    padding-right: 9px;
+    padding-bottom: 4px;
+    padding-left: 9px;
+}
+
+.ui-compact .score-label {
+    top: 8px;
+}
+
+.ui-compact .high-score-label {
+    top: 42px;
+
+    min-width: 170px;
+}
+
+.ui-compact .new-high-score-label {
+    top: 78px;
+
+    min-width: 170px;
+
+    font-size: 12px;
+
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+
+    padding-top: 4px;
+    padding-right: 9px;
+    padding-bottom: 4px;
+    padding-left: 9px;
+}
+
+.ui-compact .obstacle-count-label {
+    right: 12px;
+    bottom: 12px;
+
+    min-width: 112px;
+}
+
+.ui-compact .game-button {
+    width: 142px;
+    height: 46px;
+
+    font-size: 14px;
+
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+}
+
+.ui-compact .main-menu-panel {
+    padding-top: 20px;
+    padding-right: 16px;
+    padding-bottom: 20px;
+    padding-left: 16px;
+}
+
+.ui-compact .menu-play-button {
+    width: 160px;
+    height: 48px;
+
+    font-size: 15px;
+
+    margin-bottom: 14px;
+}
+
+.ui-compact .menu-exit-button {
+    width: 160px;
+    height: 48px;
+
+    font-size: 15px;
+}
+
+.ui-compact .restart-button-game-over {
+    right: 10px;
+    top: 8px;
+
+    width: 112px;
+    height: 36px;
+
+    font-size: 11px;
+}
+
+.ui-compact .exit-button-game-over {
+    bottom: 10px;
+
+    width: 124px;
+    height: 38px;
+
+    font-size: 12px;
+}
+
+.ui-compact .power-up-title {
+    font-size: 16px;
+
+    margin-bottom: 16px;
+}
+
+.ui-compact .power-up-button {
+    width: 210px;
+    height: 48px;
+
+    font-size: 13px;
+}
+
+.ui-compact .missile-button {
+    margin-bottom: 12px;
+}
+
+.ui-compact .rotate-warning-text {
+    font-size: 16px;
+
+    padding-top: 12px;
+    padding-right: 18px;
+    padding-bottom: 12px;
+    padding-left: 18px;
+}
+
+.ui-compact .countdown-label {
+    font-size: 56px;
+}
+
+.ui-compact .completion-bonus-label {
+    top: 116px;
+
+    min-width: 190px;
+
+    font-size: 12px;
+
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+
+    padding-top: 5px;
+    padding-right: 9px;
+    padding-bottom: 5px;
+    padding-left: 9px;
+}
+
+
+/* ================================================== */
+/* ULTRA COMPACT RESPONSIVE LAYOUT                    */
+/* ================================================== */
+
+.ui-ultra-compact .hud-label {
+    min-width: 96px;
+
+    font-size: 10px;
+
+    padding-top: 3px;
+    padding-right: 7px;
+    padding-bottom: 3px;
+    padding-left: 7px;
+}
+
+.ui-ultra-compact .score-label {
+    top: 6px;
+}
+
+.ui-ultra-compact .high-score-label {
+    top: 34px;
+
+    min-width: 145px;
+}
+
+.ui-ultra-compact .new-high-score-label {
+    top: 62px;
+
+    min-width: 145px;
+
+    font-size: 10px;
+
+    padding-top: 3px;
+    padding-right: 7px;
+    padding-bottom: 3px;
+    padding-left: 7px;
+}
+
+.ui-ultra-compact .obstacle-count-label {
+    right: 8px;
+    bottom: 8px;
+
+    min-width: 96px;
+}
+
+.ui-ultra-compact .game-button {
+    width: 120px;
+    height: 36px;
+
+    font-size: 11px;
+}
+
+.ui-ultra-compact .main-menu-panel {
+    padding-top: 12px;
+    padding-right: 10px;
+    padding-bottom: 12px;
+    padding-left: 10px;
+}
+
+.ui-ultra-compact .menu-play-button {
+    width: 142px;
+    height: 38px;
+
+    font-size: 12px;
+
+    margin-bottom: 12px;
+}
+
+.ui-ultra-compact .menu-exit-button {
+    width: 142px;
+    height: 38px;
+
+    font-size: 12px;
+}
+
+.ui-ultra-compact .restart-button-game-over {
+    right: 8px;
+    top: 6px;
+
+    width: 96px;
+    height: 32px;
+
+    font-size: 9px;
+}
+
+.ui-ultra-compact .exit-button-game-over {
+    bottom: 8px;
+
+    width: 108px;
+    height: 34px;
+
+    font-size: 10px;
+}
+
+.ui-ultra-compact .power-up-title {
+    font-size: 13px;
+
+    margin-bottom: 12px;
+}
+
+.ui-ultra-compact .power-up-button {
+    width: 170px;
+    height: 38px;
+
+    font-size: 10px;
+}
+
+.ui-ultra-compact .missile-button {
+    margin-bottom: 10px;
+}
+
+.ui-ultra-compact .rotate-warning-text {
+    font-size: 13px;
+
+    padding-top: 10px;
+    padding-right: 14px;
+    padding-bottom: 10px;
+    padding-left: 14px;
+}
+
+.ui-ultra-compact .countdown-label {
+    font-size: 42px;
+}
+
+.ui-ultra-compact .completion-bonus-label {
+    top: 92px;
+
+    min-width: 150px;
+
+    font-size: 10px;
+
+    padding-top: 3px;
+    padding-right: 7px;
+    padding-bottom: 3px;
+    padding-left: 7px;
 }

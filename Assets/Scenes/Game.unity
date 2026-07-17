@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 295974401}
   - component: {fileID: 295974402}
   - component: {fileID: 295974403}
+  - component: {fileID: 295974404}
   m_Layer: 5
   m_Name: GameUIController
   m_TagString: Untagged
@@ -409,6 +410,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &295974404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295974398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77a3e1dea8e129e4cbbae3705e1606d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameUIResponsiveLayout
+  compactWidthThreshold: 720
+  compactHeightThreshold: 480
+  ultraCompactWidthThreshold: 540
+  ultraCompactHeightThreshold: 360
 --- !u!4 &465601226 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7684573195213697989, guid: 8b5419041ae635e44941c2a1c3c64ae1, type: 3}
@@ -755,8 +772,8 @@ Transform:
   m_GameObject: {fileID: 854178710}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -7.2572503, z: 0}
-  m_LocalScale: {x: 1.1305884, y: 0.65, z: 1}
+  m_LocalPosition: {x: 0, y: -7.2561784, z: 0}
+  m_LocalScale: {x: 1.1305916, y: 0.65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1956030029}
@@ -918,11 +935,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BorderImpactAudio2D
   audioSource: {fileID: 854178714}
   borderHitSfx: {fileID: 8300000, guid: 0dd150e7b3e8a6648a910f7b3d51d2a2, type: 3}
-  volume: 0.65
-  minVolumeMultiplier: 0.35
   minImpactSpeed: 0.5
   maxImpactSpeed: 8
-  globalSfxCooldown: 0.06
+  minVolume: 0.15
+  maxVolume: 0.65
+  pitchRange: {x: 0.92, y: 1.08}
+  localCooldown: 0.06
+  globalCooldown: 0.03
 --- !u!1 &866859346
 GameObject:
   m_ObjectHideFlags: 0
@@ -6083,7 +6102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
   scoreMultiplier: 10
-  scoreMilestoneInterval: 5
+  scoreMilestoneInterval: 50
 --- !u!114 &996710207
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6532,7 +6551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c085e08c4a7ad484da5f8e1647def4cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerShield2D
-  duration: 1000
+  duration: 8
   minBounceSpeed: 6
   bounceImpulse: 4
   shieldVisual: {fileID: 1413654817}
@@ -6741,8 +6760,8 @@ Transform:
   m_GameObject: {fileID: 1461701067}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.2572503, z: 0}
-  m_LocalScale: {x: 1.1305884, y: 0.65, z: 1}
+  m_LocalPosition: {x: 0, y: 7.2561784, z: 0}
+  m_LocalScale: {x: 1.1305916, y: 0.65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1956030029}
@@ -6904,11 +6923,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BorderImpactAudio2D
   audioSource: {fileID: 1461701071}
   borderHitSfx: {fileID: 8300000, guid: 0dd150e7b3e8a6648a910f7b3d51d2a2, type: 3}
-  volume: 0.65
-  minVolumeMultiplier: 0.35
   minImpactSpeed: 0.5
   maxImpactSpeed: 8
-  globalSfxCooldown: 0.06
+  minVolume: 0.15
+  maxVolume: 0.65
+  pitchRange: {x: 0.92, y: 1.08}
+  localCooldown: 0.06
+  globalCooldown: 0.03
 --- !u!1 &1495461835
 GameObject:
   m_ObjectHideFlags: 0
@@ -7126,8 +7147,8 @@ Transform:
   m_GameObject: {fileID: 1530815970}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.70710576, w: 0.70710784}
-  m_LocalPosition: {x: -13.323916, y: 0, z: 0}
-  m_LocalScale: {x: 0.63595605, y: 0.65, z: 1}
+  m_LocalPosition: {x: -13.323955, y: 0, z: 0}
+  m_LocalScale: {x: 0.6358686, y: 0.65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1956030029}
@@ -7289,11 +7310,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BorderImpactAudio2D
   audioSource: {fileID: 1530815974}
   borderHitSfx: {fileID: 8300000, guid: 0dd150e7b3e8a6648a910f7b3d51d2a2, type: 3}
-  volume: 0.65
-  minVolumeMultiplier: 0.35
   minImpactSpeed: 0.5
   maxImpactSpeed: 8
-  globalSfxCooldown: 0.06
+  minVolume: 0.15
+  maxVolume: 0.65
+  pitchRange: {x: 0.92, y: 1.08}
+  localCooldown: 0.06
+  globalCooldown: 0.03
 --- !u!4 &1550587477 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7684573195213697989, guid: 8b5419041ae635e44941c2a1c3c64ae1, type: 3}
@@ -12199,7 +12222,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 7.8
+  orthographic size: 7.7989283
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -12604,8 +12627,8 @@ Transform:
   m_GameObject: {fileID: 1896710089}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.70710576, w: 0.7071079}
-  m_LocalPosition: {x: 13.323916, y: 0, z: 0}
-  m_LocalScale: {x: 0.63595605, y: 0.65, z: 1}
+  m_LocalPosition: {x: 13.323955, y: 0, z: 0}
+  m_LocalScale: {x: 0.6358686, y: 0.65, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1956030029}
@@ -12767,11 +12790,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BorderImpactAudio2D
   audioSource: {fileID: 1896710093}
   borderHitSfx: {fileID: 8300000, guid: 0dd150e7b3e8a6648a910f7b3d51d2a2, type: 3}
-  volume: 0.65
-  minVolumeMultiplier: 0.35
   minImpactSpeed: 0.5
   maxImpactSpeed: 8
-  globalSfxCooldown: 0.06
+  minVolume: 0.15
+  maxVolume: 0.65
+  pitchRange: {x: 0.92, y: 1.08}
+  localCooldown: 0.06
+  globalCooldown: 0.03
 --- !u!1 &1907703002
 GameObject:
   m_ObjectHideFlags: 0
@@ -13340,11 +13365,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8527642795729790295, guid: e673f1f8a5a9009428f67c165de54fda, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.7416267
+      value: 1.7416316
       objectReference: {fileID: 0}
     - target: {fileID: 8527642795729790295, guid: e673f1f8a5a9009428f67c165de54fda, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.7416267
+      value: 1.7416316
       objectReference: {fileID: 0}
     - target: {fileID: 8527642795729790295, guid: e673f1f8a5a9009428f67c165de54fda, type: 3}
       propertyPath: m_LocalScale.z
